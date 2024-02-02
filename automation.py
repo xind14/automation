@@ -8,6 +8,12 @@ import shutil
 console = Console()
 
 def create_folder(folder_name):
+    """
+    Create a folder with the specified name.
+
+    Args:
+        folder_name (str): The name of the folder to be created.
+    """
     try:
         os.mkdir(folder_name)
         console.print(f"[red]Folder '[bright_blue]{folder_name}[/bright_blue]' created successfully.[/red]")
@@ -15,6 +21,12 @@ def create_folder(folder_name):
         console.print(f"[red]Folder '[bright_blue]{folder_name}[/bright_blue]' already exists.[/red]")
 
 def handle_deleted_user(user_folder):
+    """
+    Move a user's documents to a temporary folder.
+
+    Args:
+        user_folder (str): The name of the user's folder.
+    """
     user_folder_path = f"assets/user_docs/{user_folder}"
     temp_folder = "temporary_folder"
 
@@ -29,6 +41,12 @@ def handle_deleted_user(user_folder):
         console.print(f"User '[green]{user_folder}[/green]' folder not found.")
 
 def sort_documents(folder_path):
+    """
+    Sort documents into folders based on their file extensions.
+
+    Args:
+        folder_path (str): The path to the folder containing documents to be sorted.
+    """
     for file_name in os.listdir(folder_path):
         file_path = os.path.join(folder_path, file_name)
 
@@ -45,6 +63,13 @@ def sort_documents(folder_path):
     console.print(f"[yellow]Documents sorted into new folders in {folder_path}.[/yellow]")
 
 def parse_errors(log_file, target_directory):
+    """
+    Parse a log file for errors and warnings.
+
+    Args:
+        log_file (str): The path to the log file.
+        target_directory (str): The target directory for storing error and warning logs.
+    """
     with open(log_file, 'r') as file:
         log_content = file.read()
 
@@ -64,6 +89,12 @@ def parse_errors(log_file, target_directory):
         console.print(f"[yellow]Warnings logged to [dodger_blue3]{os.path.join(target_directory, 'warnings.log')}[/dodger_blue3][/yellow]")
 
 def count_file_types(folder_path):
+    """
+    Count the number of files with different extensions in a folder.
+
+    Args:
+        folder_path (str): The path to the folder for counting file types.
+    """
     file_type_counts = {}
 
     for file in os.listdir(folder_path):
@@ -85,7 +116,10 @@ def count_file_types(folder_path):
     console.print(table)
 
 def print_menu():
-    console.print("\n")  # Add a space before the menu
+    """
+    Print the main menu table for the automation script.
+    """
+    console.print("\n")  
     table = Table(show_header=False, title="[bold underline deep_sky_blue4]Automation Menu[/bold underline deep_sky_blue4]")
     table.add_column("[bright_yellow]#[/bright_yellow]", style="bright_yellow", justify="right")
     table.add_column("Option", style="magenta")
@@ -105,8 +139,10 @@ def print_menu():
     console.print(table)
     console.print("\n")  
 
-
 def main():
+    """
+    Main function to run the automation script.
+    """
     while True:
         print_menu()
 

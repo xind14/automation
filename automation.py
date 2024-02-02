@@ -16,7 +16,19 @@ def create_folder(folder_name):
         console.print(f"[red]Folder '{folder_name}' already exists.[red]")
 
 
+def handle_deleted_user(user_folder):
+    user_folder_path = f"assets/user_docs/{user_folder}"
+    temp_folder = "temporary_folder"
 
+    try:
+        if os.path.exists(user_folder_path):
+            if not os.path.exists(temp_folder):
+                os.mkdir(temp_folder)
+
+            shutil.move(user_folder_path, temp_folder)
+            print(f"Successfully moved user '{user_folder}' documents to {temp_folder}.")
+    except FileNotFoundError:
+        print(f"User '{user_folder}' folder not found.")
 
 # Example usage:
 

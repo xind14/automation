@@ -11,9 +11,9 @@ import shutil
 def create_folder(folder_name):
     try:
         os.mkdir(folder_name)
-        console.print(f"[red]folder '{folder_name}' created successfully.[red]")
+        console.print(f"[red]folder '[bold blue]{folder_name}[/bold blue]' created successfully.[/red]")
     except FileExistsError:
-        console.print(f"[red]Folder '{folder_name}' already exists.[red]")
+        console.print(f"[red]Folder '[bold blue]{folder_name}[/bold blue]' already exists.[/red]")
 
 
 def handle_deleted_user(user_folder):
@@ -26,19 +26,29 @@ def handle_deleted_user(user_folder):
                 os.mkdir(temp_folder)
 
             shutil.move(user_folder_path, temp_folder)
-            print(f"Successfully moved user '{user_folder}' documents to {temp_folder}.")
+            print(f"Successfully moved user '[bold green]{user_folder}[/bold green]' documents to [bold blue]{temp_folder}[/bold blue].")
     except FileNotFoundError:
-        print(f"User '{user_folder}' folder not found.")
+        print(f"User '[bold green]{user_folder}[/bold green]' folder not found.")
 
-# Example usage:
+def sort_documents(folder_path):
+    console = Console()
 
-# 2. **Handle a deleted user:**
-#    - User2 is a deleted user and needs to move their documents from their user folder to a temporary folder. Your script will create the temporary folder. This will effectively delete the user from the system while still maintaining a record of their documents.
+    for file_name in os.listdir(folder_path):
+        file_path = os.path.join(folder_path, file_name)
 
-# 3. **Sort documents into appropriate folders:**
-#    - Go through a given folder and sort the documents into additional folders based on their file type.
-#      - Move log files into a logs folder. If a logs folder doesn’t exist, your script should create one.
-#      - Move email files into a mail folder. If a mail folder doesn’t exist, your script should create one.
+        if os.path.isfile(file_path):
+            _, file_extension = os.path.splitext(file_name)
+            file_extension = file_extension[1:].lower()
+
+            destination_folder = os.path.join(folder_path, file_extension)
+            if not os.path.exists(destination_folder):
+                os.mkdir(destination_folder)
+
+            destination_path = os.path.join(destination_folder, file_name)
+            shutil.move(file_path, destination_path)
+
+    console.print(f"[yellow]Documents sorted into new folders in {folder_path}.[/yellow]")
+
 
 # 4. **Parse a log file for errors and warnings:**
 #    - From the previous task, you’ve moved a log file into the logs folder. Now, parse the log file for errors and warnings and create two separate log files in a target directory:

@@ -66,3 +66,40 @@ def count_file_types(folder_path, file_extension):
     count = sum(1 for file in os.listdir(folder_path) if file.endswith(file_extension))
     console.print(f"[cyan]Number of '[magenta]{file_extension}[/magenta]' files in '[blue]{folder_path}[/blue]': [magenta]{count}[/magenta][/cyan]")
 
+def main():
+    while True:
+        console.print("[bright_yellow]\n╔══════════════════════════════════════════╗[/bright_yellow]")
+        console.print("[bright_yellow]║       [magenta]1. Create Folder                   [/magenta]║[/bright_yellow]")
+        console.print("[bright_yellow]║       [magenta]2. Handle Deleted User             [/magenta]║[/bright_yellow]")
+        console.print("[bright_yellow]║       [magenta]3. Sort Documents                  [/magenta]║[/bright_yellow]")
+        console.print("[bright_yellow]║       [magenta]4. Parse Errors and Warnings       [/magenta]║[/bright_yellow]")
+        console.print("[bright_yellow]║       [magenta]5. Count File Types                [/magenta]║[/bright_yellow]")
+        console.print("[bright_yellow]║       [magenta]6. Exit                            [/magenta]║[/bright_yellow]")
+        console.print("[bright_yellow]╚══════════════════════════════════════════╝[/bright_yellow]")
+
+        choice = Prompt.ask("[blue]Choose a task (Enter the number)[/blue]", choices=['1', '2', '3', '4', '5', '6'], default='6')
+
+        if choice == '1':
+            folder_name = Prompt.ask("[blue]Enter folder name:[/blue]")
+            create_folder(folder_name)
+        elif choice == '2':
+            user_folder = Prompt.ask("[blue]Enter user folder to handle deleted user:[/blue]")
+            handle_deleted_user(user_folder)
+        elif choice == '3':
+            folder_path = Prompt.ask("[blue]Enter folder path to sort documents:[/blue]")
+            sort_documents(folder_path)
+        elif choice == '4':
+            log_file = Prompt.ask("[blue]Enter log file path to parse errors:[/blue]")
+            target_directory = Prompt.ask("[bold blue]Enter target directory for logs:[/blue]")
+            parse_errors(log_file, target_directory)
+        elif choice == '5':
+            folder_path = Prompt.ask("[blue]Enter folder path to count file types:[/blue]")
+            file_extension = Prompt.ask("[blue]Enter file extension:[/blue]")
+            count_file_types(folder_path, file_extension)
+        elif choice == '6':
+            break
+        else:
+            console.print("[red]Invalid choice. Please enter a valid task number.[/red]")
+
+if __name__ == "__main__":
+    main()

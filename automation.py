@@ -62,3 +62,7 @@ def parse_errors(log_file, target_directory):
             warnings_file.write(f"{warning}\n")
         console.print(f"[yellow]Warnings logged to [blue]{os.path.join(target_directory, 'warnings.log')}[/blue][/yellow]")
 
+def count_file_types(folder_path, file_extension):
+    count = sum(1 for file in os.listdir(folder_path) if file.endswith(file_extension))
+    console.print(f"[cyan]Number of '[magenta]{file_extension}[/magenta]' files in '[blue]{folder_path}[/blue]': [magenta]{count}[/magenta][/cyan]")
+

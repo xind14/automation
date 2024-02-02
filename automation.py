@@ -84,16 +84,31 @@ def count_file_types(folder_path):
 
     console.print(table)
 
+def print_menu():
+    console.print("\n")  # Add a space before the menu
+    table = Table(show_header=False, title="[bold underline deep_sky_blue4]Automation Menu[/bold underline deep_sky_blue4]")
+    table.add_column("[bright_yellow]#[/bright_yellow]", style="bright_yellow", justify="right")
+    table.add_column("Option", style="magenta")
+
+    options = [
+        "Create Folder",
+        "Handle Deleted User",
+        "Sort Documents",
+        "Parse Errors and Warnings",
+        "Count File Types",
+        "Exit"
+    ]
+
+    for index, option in enumerate(options, start=1):
+        table.add_row(str(index), option)
+
+    console.print(table)
+    console.print("\n")  
+
+
 def main():
     while True:
-        console.print("[bright_yellow]\n╔══════════════════════════════════════════╗[/bright_yellow]")
-        console.print("[bright_yellow]║       [magenta]1. Create Folder                   [/magenta]║[/bright_yellow]")
-        console.print("[bright_yellow]║       [magenta]2. Handle Deleted User             [/magenta]║[/bright_yellow]")
-        console.print("[bright_yellow]║       [magenta]3. Sort Documents                  [/magenta]║[/bright_yellow]")
-        console.print("[bright_yellow]║       [magenta]4. Parse Errors and Warnings       [/magenta]║[/bright_yellow]")
-        console.print("[bright_yellow]║       [magenta]5. Count File Types                [/magenta]║[/bright_yellow]")
-        console.print("[bright_yellow]║       [magenta]6. Exit                            [/magenta]║[/bright_yellow]")
-        console.print("[bright_yellow]╚══════════════════════════════════════════╝[/bright_yellow]")
+        print_menu()
 
         choice = Prompt.ask("[spring_green4]Choose a task (Enter the number)[/spring_green4]", choices=['1', '2', '3', '4', '5', '6'], default='6')
 

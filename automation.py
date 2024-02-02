@@ -29,7 +29,6 @@ def handle_deleted_user(user_folder):
         console.print(f"User '[green]{user_folder}[/green]' folder not found.")
 
 def sort_documents(folder_path):
-
     for file_name in os.listdir(folder_path):
         file_path = os.path.join(folder_path, file_name)
 
@@ -46,14 +45,11 @@ def sort_documents(folder_path):
     console.print(f"[yellow]Documents sorted into new folders in {folder_path}.[/yellow]")
 
 def parse_errors(log_file, target_directory):
-    
-
     with open(log_file, 'r') as file:
         log_content = file.read()
 
     errors = re.findall(r'\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}, ERROR: (.+)', log_content)
     warnings = re.findall(r'\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}, WARNING: (.+)', log_content)
-
 
     os.mkdir(target_directory, exist_ok=True)
 
@@ -67,11 +63,26 @@ def parse_errors(log_file, target_directory):
             warnings_file.write(f"{warning}\n")
         console.print(f"[yellow]Warnings logged to [dodger_blue3]{os.path.join(target_directory, 'warnings.log')}[/dodger_blue3][/yellow]")
 
+def count_file_types(folder_path):
+    file_type_counts = {}
 
+    for file in os.listdir(folder_path):
+        if os.path.isfile(os.path.join(folder_path, file)):
+            _, file_extension = os.path.splitext(file)
 
-def count_file_types(folder_path, file_extension):
-    count = sum(1 for file in os.listdir(folder_path) if file.endswith(file_extension))
-    console.print(f"[cyan]Number of '[magenta]{file_extension}[/magenta]' files in '[dodger_blue3]{folder_path}[/dodger_blue3]': [magenta]{count}[/magenta][/cyan]")
+            if file_extension:
+                file_type_counts[file_extension] = file_type_counts.get(file_extension, 0) + 1
+            else:
+                file_type_counts['(no extension)'] = file_type_counts.get('(no extension)', 0) + 1
+
+    table = Table(title=f"\n[cyan]File type counts in '[dodger_blue3]{folder_path}[/dodger_blue3]'[/cyan]")
+    table.add_column("File Type", style="bold magenta")
+    table.add_column("Count", style="cyan")
+
+    for file_extension, count in file_type_counts.items():
+        table.add_row(file_extension, str(count))
+
+    console.print(table)
 
 def main():
     while True:
@@ -101,8 +112,7 @@ def main():
             parse_errors(log_file, target_directory)
         elif choice == '5':
             folder_path = Prompt.ask("[dodger_blue3]Enter folder path to count file types:[/dodger_blue3]")
-            file_extension = Prompt.ask("[purple]Enter file extension:[/purple]")
-            count_file_types(folder_path, file_extension)
+            count_file_types(folder_path)
         elif choice == '6':
             break
         else:
